@@ -10,23 +10,44 @@ import {
             ModalOverlay,
         } from "@chakra-ui/react";
         import Comment from '../Comments/Comments'
+import usePostComment from "../../hooks/usePostComment";
+import { useRef } from "react";
+import { useEffect } from "react";
         const CommentsModal = ({ isOpen, onClose, post }) => {
+            const {isCommenting, handleComment} = usePostComment()
+            const commentRef = useRef(null)
+            const commentContainerRef =useRef(null);
+            const handleSubmitComment = async (e) =>{
+                e.preventDefault()
+                await handleComment(post.id, commentRef.current.value)
+                commentRef.current.value = '';
+            }
+            useEffect(() =>{
+                const scrollToBottom =()=>{
+                    commentContainerRef.current.scrollTop = commentContainerRef.current.scrollHeight;
+                }
+                if(isOpen){
+                    setTimeout(() =>{scrollToBottom()}, 100)
+                }
+            }, [isOpen, post.comments.length])
             return (
                 <Modal isOpen={isOpen} onClose={onClose} motionPreset='slideInLeft'>
                     <ModalOverlay />
                     <ModalContent bg={"black"} border={"1px solid gray"} maxW={"400px"}>
                         <ModalHeader>Comments</ModalHeader>
                         <ModalCloseButton />
-                        <ModalBody pb={6} alignItems={"center"} textAlign={"left"}>
-                            <Flex mb={4} gap={4} flexDir={"column"} maxH={"250px"} overflowY={"auto"}>
+                        <ModalBody pb={6}>
+                            <Flex mb={4} gap={4} flexDir={"column"} maxH={"250px"} overflowY={"auto"} alignItems={"flex-start"}
+                            ref={commentContainerRef}
+                            >
                                 {post.comments.map((comment, id) =>(
                                         <Comment key ={id} comment ={comment}/>
                                 ))}
                             </Flex>
-                            <form style={{ marginTop: "2rem" }}>
-                                <Input placeholder='Comment' size={"sm"} />
+                            <form onSubmit ={handleSubmitComment} style={{ marginTop: "2rem" }}>
+                                <Input placeholder='Comment' size={"sm"} ref ={commentRef} />
                                 <Flex w={"full"} justifyContent={"flex-end"}>
-                                    <Button type='submit' ml={"auto"} size={"sm"} my={4}>
+                                    <Button type='submit' ml={"auto"} size={"sm"} my={4} isLoading ={isCommenting}>
                                         Post
                                     </Button>
                                 </Flex>

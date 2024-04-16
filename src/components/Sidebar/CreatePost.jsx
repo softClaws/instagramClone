@@ -15,7 +15,7 @@ import {
 import { BsFillImageFill } from "react-icons/bs";
 import { CreatePostLogo } from '../../assets/constants'
 // import { AiFillCreate} from 'react-icons/ai'
-import {Link as RouterLink} from 'react-router-dom'
+// import {Link as RouterLink} from 'react-router-dom'
 import { useRef, useState } from 'react';
 import usePreviewImg from '../../hooks/usePreviewImg'
 import useCreatePost from '../../hooks/useCreatePost';
@@ -52,8 +52,8 @@ const Create = () => {
                     >
                         <Link 
                         display={"flex"}
-                        to ={"/"}
-                        as = {RouterLink}
+                        // to ={"/"}
+                        // as = {RouterLink}
                         alignItems={"center"}
                         gap={4}
                         _hover={{bg: "whiteAlpha.400"}}

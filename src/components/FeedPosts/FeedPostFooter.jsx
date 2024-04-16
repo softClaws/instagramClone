@@ -6,7 +6,7 @@ import useAuthStore from "../../store/authStore"
 import useLikePost from "../../hooks/useLikePost"
 import { timeAgo } from "../../utils/timeAgo"
 import CommentsModal from "../Modals/CommentModal"
-const FeedPostFooter = ({post,username, isProfilePage, creatorProfile}) => {
+const FeedPostFooter = ({post, isProfilePage, creatorProfile}) => {
     const {isCommenting, handleComment} =usePostComment();
     const [comment, setComment] = useState('');
     const authUser = useAuthStore(state => state.user);
@@ -59,7 +59,7 @@ const FeedPostFooter = ({post,username, isProfilePage, creatorProfile}) => {
                 View all {post.comments.length} comments
             </Text>
             )}
-            {/* comment modal oly in the home page */}
+            {/* comment modal only in the home page */}
             {
             isOpen? <CommentsModal isOpen = {isOpen} onClose={onClose} post ={post}/> : null
             }

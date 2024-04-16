@@ -7,42 +7,49 @@ import useUserProfileStore from "../store/userProfileStore";
 import { addDoc, arrayUnion, collection, doc, updateDoc } from "firebase/firestore";
 import { firestore, storage } from "../firebase/firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { useLocation } from "react-router-dom";
 
 const useCreatePost = () =>{
-    const showToast = useShowToast();
     const [isLoading, setIsLoading] = useState(false)
+    const showToast = useShowToast();
     const authUser =useAuthStore(state => state.user);
     const  createPost = usePostStore(state => state.createPost)
     const addPost = useUserProfileStore(state => state.addPost)
+    const userprofile = useUserProfileStore(state => state.userProfile)
+    const {pathname} = useLocation()
     // const userProfile = useUserProfileStore((state) => state.userProfile);
-    // const {pathName} = useLocation()
-
+    
     const handleCreatePost = async (selectedFile, caption) =>{
-		if (isLoading) return;
+        if (isLoading) return;
 		if (!selectedFile) throw new Error("Please select an image");
 		setIsLoading(true);
-    const newPost ={
-        caption: caption,
-        likes:[],
-        comments: [],
-        createdAt: Date.now(),
-        createdBy: authUser.uid
-    }
-    try {
-        const postDocRef = await addDoc(collection(firestore, 'posts'), newPost);
-        const userDocRef = doc(firestore, 'users', authUser.uid);
-        const imageRef = ref(storage, `posts/${postDocRef.id}`);
+        const newPost ={
+            caption: caption,
+            likes:[],
+            comments: [],
+            createdAt: Date.now(),
+            createdBy: authUser.uid
+        }
+        try {
+            const postDocRef = await addDoc(collection(firestore, 'posts'), newPost);
+            const userDocRef = doc(firestore, 'users', authUser.uid);
+            const imageRef = ref(storage, `posts/${postDocRef.id}`);
+            
+            await updateDoc(userDocRef, {posts: arrayUnion(postDocRef.id)})
+            await uploadString(imageRef, selectedFile, "data_url")
+            
+            const downloadURL = await getDownloadURL(imageRef);
+            await updateDoc(postDocRef, {imageURL: downloadURL});
+            
+            newPost.imageURL = downloadURL;
+            if(userprofile.uid == authUser.uid) {
 
-        await updateDoc(userDocRef, {posts: arrayUnion(postDocRef.id)})
-        await uploadString(imageRef, selectedFile, "data_url")
-
-        const downloadURL = await getDownloadURL(imageRef);
-        await updateDoc(postDocRef, {imageURL: downloadURL});
-
-        newPost.imageURL = downloadURL;
-
-        createPost({...newPost, id: postDocRef.id});
-        addPost({...newPost, id: postDocRef.id});
+                createPost({...newPost, id: postDocRef.id});
+            }
+            if(pathname !== '/' && userprofile.uid == authUser.uid) {
+                
+                addPost({...newPost, id: postDocRef.id});
+            }
 
         showToast("Success", "Post created successfully", "success")
     } catch (error) {
