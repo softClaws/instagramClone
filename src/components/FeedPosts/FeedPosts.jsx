@@ -35,9 +35,9 @@ const FeedPosts = () => {
 			{!isLoading && posts.length === 0 && (
 				<>
 					<Text justifyContent={"center"} my={10} alignItems ={"Center"} fontSize={"md"} color={"red.300"}>
-						Eh woo!!  &#128582; &#128582;. Looks like you don&apos;t have any friends. &#128557; &#128557;
+						Eh woo!!  &#128582; &#128582;. Looks like you don&apos;t have any friends or check internet connection. &#128557; &#128557;
 					</Text>
-					<Text color={"red.100"}> &#128107; Check Suggested User or go to Search to make some &#129330;!!</Text>
+					<Text color={"red.100"}> &#128107; Check Suggested User or go  Search and follow ruddy, Parody for better experience &#129330;!!</Text>
 				</>
           ) 
         }
