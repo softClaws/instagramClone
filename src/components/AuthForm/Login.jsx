@@ -1,4 +1,4 @@
-import { Input, Button, Alert, AlertIcon } from "@chakra-ui/react"
+import { Input, Button, Alert, AlertIcon, Text,Box } from "@chakra-ui/react"
 import { useState } from "react";
 import useLogin from "../../hooks/useLogin";
 const Login = () => {
@@ -10,7 +10,7 @@ const {loading, error, login}=useLogin()
   return (
     <>
      <Input
-                placeholder="Email"
+                placeholder="dummy_user@gmail.com "
                 fontSize={14}
                 type = 'email'
                 value={inputs.email}
@@ -19,7 +19,7 @@ const {loading, error, login}=useLogin()
 
             />
             <Input
-                placeholder="Password"
+                placeholder="Dummy123"
                 fontSize={14}
                 type="password"
                 value={inputs.password}
@@ -40,6 +40,11 @@ const {loading, error, login}=useLogin()
             <Button w ={"full"} colorScheme = 'blue' size = {"sm"} fontSize = {14} isLoading = {loading}  onClick ={() => login(inputs)} >
                             Log in
                         </Button>
+                        <Box mx = {2} fontSize={12} color={'whiteAlpha.700'} >
+                          {`Login to your existing account OR`}
+                         <Text> use the placeholder credentials to inspect the app </Text>
+  
+                          </Box>
     </>
   )
 }

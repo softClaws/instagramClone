@@ -37,7 +37,7 @@ const FeedPosts = () => {
 					<Text justifyContent={"center"} my={10} alignItems ={"Center"} fontSize={"md"} color={"red.300"}>
 						Omo!!  &#128582; &#128582;. Seems like you don&apos;t have any friends or maybe check internet connection. &#128557; &#128557;
 					</Text>
-					<Text color={"red.100"}> &#128107; Check Suggested User or go  Search and follow ruddy, Parody to their post for better experience  &#129330;!!</Text>
+					<Text color={"red.100"}> &#128107; Check Suggested User or go  Search and follow ruddy, Parody to view their post for better experience  &#129330;!!</Text>
 				</>
           ) 
         }

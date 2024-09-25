@@ -24,6 +24,19 @@ const AuthForm = () => {
                 <Box flex={1} h = {"1px"} bg = {"gray.400"}/>
             </Flex>
                 <GoogleAuth prefix = {isLogin? "Log in" : "Sign up"}/>
+            {/* <Box>
+                    <Text fontFamily={"poppins"}>
+
+                You can choose to signup or login 
+                    </Text>
+                    <Text fontFamily={"poppins"}>
+                OR For demonstration purpose and more exploration, you can login with this demo account
+                detail:
+                </Text>
+                
+                <Text color={"blue.700"}> email:mrx@gmail.com</Text> 
+                <Text color={"blue.700"}>password:  123456</Text>
+            </Box> */}
         </VStack>
 
     </Box>
